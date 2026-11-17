@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Email from '../components/Email.astro';
+import { entreprise } from '../data/entreprise.js';
+---
+<Base titre="Mentions légales">
+  <section class="section">
+    <div class="conteneur texte-legal" style="max-width:46rem">
+      <h1>Mentions légales</h1>
+
+      <h2>Éditeur du site</h2>
+      <p>
+        {entreprise.nom}, {entreprise.formeJuridique}<br />
+        SIRET : {entreprise.siret}<br />
+        {entreprise.adresse.rue}, {entreprise.adresse.codePostal} {entreprise.adresse.ville}<br />
+        Téléphone : {entreprise.telephone}<br />
+        Email : <Email />
+      </p>
+
+      <h2>Directeur de la publication</h2>
+      <p>{entreprise.dirigeant}</p>
+
+      <h2>Assurance décennale</h2>
+      <p>{entreprise.assurance}</p>
+
+      <h2>Hébergeur</h2>
+      <p>
+        Cloudflare, Inc. (Cloudflare Pages)<br />
+        101 Townsend St, San Francisco, CA 94107, États-Unis<br />
+        <a href="https://www.cloudflare.com" rel="noopener">cloudflare.com</a>
+      </p>
+
+      <h2>Données personnelles</h2>
+      <p>Voir la <a href="/politique-confidentialite/">politique de confidentialité</a>.</p>
+
+      <h2>Propriété</h2>
+      <p>Le logo, les textes et les photos de ce site appartiennent à {entreprise.nom}.</p>
+    </div>
+  </section>
+</Base>

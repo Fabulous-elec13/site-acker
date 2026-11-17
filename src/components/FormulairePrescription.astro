@@ -1,0 +1,99 @@
+---
+// Formulaire de demande de prescription.
+// Sans serveur : à l'envoi, il prépare un email pré-rempli dans la messagerie du visiteur,
+// adressé à Fabrice. Le visiteur relit, peut joindre des photos, puis envoie.
+import { entreprise, services } from '../data/entreprise.js';
+const objets = [...services.map((s) => s.titre), 'Dépannage', 'Autre'];
+const lieux = ['Appartement', 'Maison ou villa', 'Commerce', 'Bureau ou local professionnel', 'Autre'];
+const u = entreprise.emailUtilisateur.split('').reverse().join('');
+const d = entreprise.emailDomaine.split('').reverse().join('');
+---
+<form class="formulaire" id="prescription" data-u={u} data-d={d} novalidate>
+  <h2>Demander une prescription</h2>
+  <p class="doux">
+    Quelques précisions avant le rendez-vous m'aident à préparer votre projet.
+    Les champs marqués * sont obligatoires.
+  </p>
+
+  <div class="ligne">
+    <label>Nom *<input name="nom" autocomplete="name" required /></label>
+    <label>Téléphone *<input name="tel" type="tel" autocomplete="tel" required /></label>
+  </div>
+  <div class="ligne">
+    <label>Email<input name="email" type="email" autocomplete="email" /></label>
+    <label>Commune *<input name="commune" autocomplete="address-level2" required /></label>
+  </div>
+  <div class="ligne">
+    <label>Objet de la demande *
+      <select name="objet" required>
+        <option value="">Choisir…</option>
+        {objets.map((o) => <option>{o}</option>)}
+      </select>
+    </label>
+    <label>Type de lieu
+      <select name="lieu">
+        <option value="">Choisir…</option>
+        {lieux.map((l) => <option>{l}</option>)}
+      </select>
+    </label>
+  </div>
+  <label>Votre projet *
+    <textarea name="message" required placeholder="Ce que vous souhaitez faire, les pièces concernées, l'état actuel de l'installation…"></textarea>
+  </label>
+  <label>Vos disponibilités pour un rendez-vous
+    <input name="dispo" placeholder="Par exemple : mardi matin, ou en fin de journée" />
+  </label>
+
+  <button class="bouton bouton--plein" type="submit">Préparer ma demande</button>
+  <p class="formulaire__message" role="status"></p>
+  <small class="doux">
+    Votre messagerie s'ouvre avec la demande déjà rédigée : vous pouvez y joindre des photos avant de l'envoyer.
+    Vos informations servent uniquement à répondre à votre demande.
+    <a href="/politique-confidentialite/">Politique de confidentialité</a>.
+  </small>
+</form>
+
+<script>
+  const f = document.getElementById('prescription') as HTMLFormElement | null;
+  const r = (t: string) => t.split('').reverse().join('');
+  f?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const msg = f.querySelector('.formulaire__message') as HTMLParagraphElement;
+    if (!f.checkValidity()) {
+      msg.textContent = 'Merci de remplir les champs marqués *.';
+      f.reportValidity();
+      return;
+    }
+    const d = new FormData(f);
+    const v = (k: string) => String(d.get(k) ?? '').trim();
+    const corps = [
+      `Nom : ${v('nom')}`,
+      `Téléphone : ${v('tel')}`,
+      `Email : ${v('email')}`,
+      `Commune : ${v('commune')}`,
+      `Objet : ${v('objet')}`,
+      `Type de lieu : ${v('lieu')}`,
+      `Disponibilités : ${v('dispo')}`,
+      '',
+      v('message'),
+    ].join('\n');
+    const adresse = r(f.dataset.u ?? '') + '@' + r(f.dataset.d ?? '');
+    const sujet = `Demande de prescription : ${v('objet')} (${v('commune')})`;
+    msg.textContent = 'Votre messagerie va s\'ouvrir avec votre demande. Pensez à cliquer sur Envoyer.';
+    window.location.href = `mailto:${adresse}?subject=${encodeURIComponent(sujet)}&body=${encodeURIComponent(corps)}`;
+  });
+</script>
+
+<style>
+  .formulaire { background: var(--noir-3); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--rayon); padding: clamp(1.4rem, 4vw, 2rem); display: grid; gap: 1rem; scroll-margin-top: 110px; }
+  .formulaire h2 { margin: 0; font-size: 1.5rem; }
+  .formulaire p { margin: 0; }
+  .ligne { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 640px) { .ligne { grid-template-columns: 1fr; } }
+  label { display: grid; gap: 0.35rem; font-size: 0.88rem; color: var(--texte-doux); }
+  input, select, textarea { font: inherit; font-size: 1rem; color: var(--texte); background: #0a0f13; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 0.75rem 0.9rem; outline: none; }
+  input:focus, select:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(34,195,240,0.15); }
+  textarea { min-height: 130px; resize: vertical; }
+  .formulaire button { justify-self: start; border: 0; cursor: pointer; font-size: 1rem; }
+  .formulaire__message { color: var(--or); min-height: 1.2em; }
+</style>

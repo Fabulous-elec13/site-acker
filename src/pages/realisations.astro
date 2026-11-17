@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import AppelAction from '../components/AppelAction.astro';
+import { photos, galerie } from '../data/entreprise.js';
+// Plus tard : une fiche par chantier, avant et après, sans nom de client sans son accord.
+---
+<Base titre="Réalisations" description="Chantiers d'Acker Électricité à Marseille : tableaux électriques, locaux professionnels, commerces, réseaux et éclairage.">
+  <section class="section">
+    <div class="conteneur">
+      <span class="surtitre">Réalisations</span>
+      <h1>Quelques chantiers récents</h1>
+      <p class="doux" style="max-width:42rem">
+        Tableaux électriques, locaux professionnels, commerces, réseaux et éclairage : un aperçu de mon travail au quotidien.
+      </p>
+      <div class="galerie">
+        {galerie.map((k) => (
+          <figure>
+            <button type="button" class="galerie__item" data-src={photos[k].src} data-legende={photos[k].alt}>
+              <img src={photos[k].src} alt={photos[k].alt} loading="lazy" />
+            </button>
+            <figcaption>{photos[k].alt}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="visionneuse" id="visionneuse" role="dialog" aria-label="Photo agrandie" hidden>
+    <img alt="" />
+    <p></p>
+  </div>
+
+  <AppelAction />
+</Base>
+
+<script>
+  const v = document.getElementById('visionneuse') as HTMLDivElement;
+  const img = v.querySelector('img') as HTMLImageElement;
+  const legende = v.querySelector('p') as HTMLParagraphElement;
+  document.querySelectorAll<HTMLButtonElement>('.galerie__item').forEach((b) =>
+    b.addEventListener('click', () => {
+      img.src = b.dataset.src ?? '';
+      img.alt = b.dataset.legende ?? '';
+      legende.textContent = b.dataset.legende ?? '';
+      v.hidden = false;
+    })
+  );
+  v.addEventListener('click', () => (v.hidden = true));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') v.hidden = true; });
+</script>
+
+<style>
+  .galerie { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2rem; }
+  @media (max-width: 820px) { .galerie { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; } }
+  .galerie figure { margin: 0; }
+  .galerie__item { display: block; width: 100%; padding: 0; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; cursor: zoom-in; background: #000; aspect-ratio: 4 / 5; }
+  .galerie__item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+  .galerie__item:hover img { transform: scale(1.05); }
+  .galerie figcaption { font-size: 0.88rem; color: var(--texte-doux); margin-top: 0.5rem; }
+  .visionneuse { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; cursor: zoom-out; }
+  .visionneuse[hidden] { display: none; }
+  .visionneuse img { max-width: 100%; max-height: 85vh; border-radius: 10px; }
+  .visionneuse p { margin-top: 0.8rem; }
+</style>

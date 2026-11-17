@@ -1,0 +1,38 @@
+---
+import { entreprise, photos } from '../data/entreprise.js';
+const p = entreprise.partenaire;
+---
+<section class="section section--sombre">
+  <div class="conteneur deux-colonnes">
+    <img class="partenaire__photo" src={photos.niches.src} alt={photos.niches.alt} loading="lazy" width="900" height="1200" />
+    <div>
+      <span class="surtitre">Mise en valeur des matières</span>
+      <h2>La lumière au service de vos matériaux</h2>
+      <p class="doux">
+        Bien plus qu'un éclairage basique : bien pensé, il révèle le relief d'un mur en pierre, le veinage d'un
+        plan de travail ou la chaleur d'une boiserie. J'accompagne les particuliers, les maîtres d'œuvre et les
+        architectes : conception et pose d'éclairages LED intégrés, discrets et durables.
+      </p>
+      <div class="partenaire__bloc">
+        <a href={p.url} target="_blank" rel="noopener" class="partenaire__logo" aria-label={`${p.nom}, lcdle.com`}>
+          <img src={p.logo} alt={`Logo LCDLE, ${p.nom}`} width="120" height="120" loading="lazy" />
+        </a>
+        <div>
+          <strong>Mon partenaire : {p.nom}</strong>
+          <p class="doux" style="margin:0">Spécialiste de l'éclairage LED : études d'éclairage, rubans LED, profilés aluminium et solutions sur mesure.</p>
+        </div>
+      </div>
+      <div class="boutons">
+        <a class="bouton bouton--plein" href="/services/eclairage-led/">Découvrir</a>
+        <a class="bouton bouton--contour" href={p.url} target="_blank" rel="noopener">Voir les solutions LCDLE ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .partenaire__photo { width: 100%; max-height: 600px; object-fit: cover; border-radius: var(--rayon); }
+  .partenaire__bloc { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; padding: 1rem 1.2rem; background: var(--noir-3); border-radius: 12px; }
+  .partenaire__logo { flex: 0 0 96px; width: 96px; height: 96px; border-radius: 50%; overflow: hidden; background: #fff; }
+  .partenaire__logo img { width: 100%; height: 100%; object-fit: contain; }
+</style>

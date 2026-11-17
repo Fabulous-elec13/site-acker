@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import AppelAction from '../components/AppelAction.astro';
+import Partenaire from '../components/Partenaire.astro';
+import { entreprise, services, photos } from '../data/entreprise.js';
+const apercu = ['intervention', 'commerce', 'niches', 'tableauTertiaire'];
+---
+<Base>
+  <section class="section hero">
+    <div class="conteneur deux-colonnes">
+      <div>
+        <span class="surtitre">Électricien à Marseille et alentours</span>
+        <h1>Votre électricité,<br /><span class="texte-degrade">en toute sécurité.</span></h1>
+        <p class="doux hero__texte">
+          Installation, dépannage, rénovation et mise aux normes pour les particuliers et les professionnels.
+          Un travail soigné, des conseils clairs et une solution adaptée à votre projet.
+        </p>
+        <div class="boutons">
+          <a class="bouton bouton--plein" href={`tel:${entreprise.telephoneLien}`}>Appeler le {entreprise.telephone}</a>
+          <a class="bouton bouton--contour" href="/contact/#prescription">Demander une prescription</a>
+        </div>
+        <ul class="pastilles">
+          <li>Particuliers et professionnels</li>
+          <li>Travaux conformes NF C 15-100</li>
+          <li>Assurance décennale</li>
+        </ul>
+      </div>
+      <figure class="hero__photo">
+        <img src={photos.intervention.src} alt={photos.intervention.alt} width="900" height="1200" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--sombre">
+    <div class="conteneur">
+      <span class="surtitre">Mes prestations</span>
+      <h2>Du simple dépannage au projet complet</h2>
+      <p class="doux" style="max-width:42rem">
+        Particuliers, commerçants ou entreprises : j'interviens sur l'ensemble de votre installation électrique,
+        dans le respect de la norme NF C 15-100.
+      </p>
+      <div class="grille" style="margin-top:1.8rem">
+        {services.map((s) => (
+          <a class="carte carte--photo" href={`/services/${s.slug}/`}>
+            <img src={photos[s.photo].src} alt={photos[s.photo].alt} loading="lazy" />
+            <div class="carte__corps">
+              <h3>{s.titre}</h3>
+              <p>{s.court}</p>
+              <span class="lien">En savoir plus →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur">
+      <span class="surtitre">Ma façon de travailler</span>
+      <p class="citation">« Vous me laissez les clés. Je fais, je nettoie, je pars. »</p>
+      <div class="chiffres">
+        <div><span class="texte-degrade">{entreprise.experience}</span><p>d'expérience</p></div>
+        <div><span class="texte-degrade">Depuis {entreprise.creation}</span><p>à mon compte</p></div>
+        <div><span class="texte-degrade">NF C 15-100</span><p>travaux conformes aux normes</p></div>
+        <div><span class="texte-degrade">Décennale</span><p>travaux assurés</p></div>
+      </div>
+    </div>
+  </section>
+
+  <Partenaire />
+
+  <section class="section">
+    <div class="conteneur">
+      <span class="surtitre">Réalisations</span>
+      <h2>Quelques chantiers récents</h2>
+      <div class="mosaique">
+        {apercu.map((k) => <img src={photos[k].src} alt={photos[k].alt} loading="lazy" />)}
+      </div>
+      <a class="bouton bouton--contour" href="/realisations/" style="margin-top:1.5rem">Voir toutes les réalisations</a>
+    </div>
+  </section>
+
+  <AppelAction />
+</Base>
+
+<style>
+  .hero {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    background:
+      radial-gradient(ellipse 60% 50% at 15% 40%, rgba(242, 178, 27, 0.1), transparent 70%),
+      radial-gradient(ellipse 50% 50% at 85% 60%, rgba(34, 195, 240, 0.1), transparent 70%);
+  }
+  .hero__texte { font-size: 1.15rem; max-width: 36rem; }
+  .hero__photo { margin: 0; }
+  .hero__photo img { width: 100%; max-height: 560px; object-fit: cover; border-radius: var(--rayon); border: 1px solid rgba(242, 178, 27, 0.35); }
+  .pastilles { list-style: none; padding: 0; margin: 2rem 0 0; display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; color: var(--texte-doux); font-size: 0.92rem; }
+  .pastilles li::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); margin-right: 0.5rem; }
+  .chiffres { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; text-align: center; margin-top: 2.5rem; }
+  .chiffres span { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; }
+  .chiffres p { color: var(--texte-doux); margin: 0.2rem 0 0; }
+  @media (max-width: 760px) { .chiffres { grid-template-columns: repeat(2, 1fr); } }
+  .mosaique { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; margin-top: 1.5rem; }
+  .mosaique img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; }
+  @media (max-width: 760px) { .mosaique { grid-template-columns: repeat(2, 1fr); } }
+</style>

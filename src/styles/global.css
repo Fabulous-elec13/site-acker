@@ -1,0 +1,160 @@
+:root {
+  --noir: #050608;
+  --noir-2: #0d1117;
+  --noir-3: #161c25;
+  --texte: #eef1f5;
+  --texte-doux: #a9b3c1;
+  --or: #f2b21b;
+  --or-fonce: #c9850f;
+  --cyan: #22c3f0;
+  --bleu: #1e5bd8;
+  --degrade: linear-gradient(90deg, var(--or) 0%, #f7e6b0 45%, var(--cyan) 70%, var(--bleu) 100%);
+  --rayon: 14px;
+  --largeur: 1100px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--noir);
+  color: var(--texte);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--cyan); }
+a:hover { color: var(--or); }
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 0.6em; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.5rem, 3.2vw, 2.1rem); }
+h3 { font-size: 1.2rem; }
+p { margin: 0 0 1em; }
+
+.conteneur { width: min(100% - 2.5rem, var(--largeur)); margin-inline: auto; }
+.section { padding: clamp(3rem, 8vw, 5.5rem) 0; }
+.section--sombre { background: var(--noir-2); }
+
+.surtitre {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--degrade);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.8rem;
+}
+
+.ligne-degrade { height: 2px; background: var(--degrade); border: 0; margin: 0; }
+.doux { color: var(--texte-doux); }
+
+/* Boutons */
+.boutons { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.bouton:hover { transform: translateY(-1px); }
+.bouton--plein { background: var(--or); color: #111; }
+.bouton--plein:hover { background: #ffc73d; color: #111; }
+.bouton--contour { border-color: var(--cyan); color: var(--texte); }
+.bouton--contour:hover { background: rgba(34, 195, 240, 0.12); color: var(--texte); }
+
+/* Cartes */
+.grille { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.carte {
+  background: var(--noir-3);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--rayon);
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: border-color 0.15s ease;
+}
+a.carte:hover { border-color: var(--or); color: inherit; }
+.carte h3 { color: var(--texte); }
+.carte p { color: var(--texte-doux); margin: 0; }
+.carte .lien { display: inline-block; margin-top: 0.9rem; color: var(--cyan); font-weight: 600; }
+
+.liste-points { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+.liste-points li { padding: 0.45rem 0 0.45rem 1.8rem; position: relative; }
+.liste-points li::before {
+  content: '';
+  position: absolute;
+  left: 0.2rem;
+  top: 0.95rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--degrade);
+}
+
+.citation {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 600;
+  border-left: 4px solid var(--or);
+  padding-left: 1.2rem;
+  margin: 0;
+}
+
+/* Marqueur des infos à confirmer : à retirer avant la mise en ligne */
+.a-confirmer {
+  display: inline-block;
+  border: 1px dashed var(--or);
+  color: var(--or);
+  border-radius: 6px;
+  padding: 0.05rem 0.45rem;
+  font-size: 0.9em;
+}
+.emplacement {
+  border: 2px dashed rgba(242, 178, 27, 0.6);
+  border-radius: var(--rayon);
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--or);
+  background: rgba(242, 178, 27, 0.04);
+}
+
+.deux-colonnes { display: grid; gap: 2.5rem; align-items: center; }
+@media (min-width: 820px) {
+  .deux-colonnes { grid-template-columns: 1.1fr 0.9fr; }
+}
+
+.infos { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.infos li { background: var(--noir-3); border-radius: var(--rayon); padding: 1rem 1.2rem; }
+.infos strong { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--texte-doux); }
+
+.texte-legal h2 { font-size: 1.3rem; margin-top: 2rem; }
+
+.texte-degrade {
+  background: var(--degrade);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.carte--photo { padding: 0; overflow: hidden; }
+.carte--photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.carte__corps { padding: 1.3rem 1.4rem 1.5rem; }
+.texte-legal ul { padding-left: 1.2rem; }
+.texte-legal li { margin-bottom: 0.5rem; }

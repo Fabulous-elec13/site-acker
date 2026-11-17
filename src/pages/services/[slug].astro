@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import AppelAction from '../../components/AppelAction.astro';
+import Partenaire from '../../components/Partenaire.astro';
+import { services, photos } from '../../data/entreprise.js';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const photo = photos[service.photo];
+const autres = services.filter((s) => s.slug !== service.slug);
+---
+<Base titre={`${service.titre} à Marseille`} description={`${service.titre} à Marseille et alentours. ${service.court}`}>
+  <section class="section">
+    <div class="conteneur deux-colonnes">
+      <div>
+        <a href="/services/" class="doux">← Toutes les prestations</a>
+        <h1 style="margin-top:0.8rem">{service.titre}</h1>
+        <p style="font-size:1.15rem">{service.intro}</p>
+        <ul class="liste-points">
+          {service.points.map((p) => <li>{p}</li>)}
+        </ul>
+        <a class="bouton bouton--plein" href="/contact/#prescription">Demander une prescription</a>
+      </div>
+      <img class="photo-service" src={photo.src} alt={photo.alt} width="900" height="1200" />
+    </div>
+  </section>
+
+  {service.slug === 'eclairage-led' && <Partenaire />}
+
+  <section class="section section--sombre">
+    <div class="conteneur">
+      <h2>Autres prestations</h2>
+      <div class="grille">
+        {autres.map((s) => (
+          <a class="carte" href={`/services/${s.slug}/`}>
+            <h3>{s.titre}</h3>
+            <p>{s.court}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <AppelAction />
+</Base>
+
+<style>
+  .photo-service { width: 100%; max-height: 560px; object-fit: cover; border-radius: var(--rayon); }
+</style>

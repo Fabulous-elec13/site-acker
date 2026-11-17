@@ -1,0 +1,64 @@
+---
+import { entreprise } from '../data/entreprise.js';
+const chemin = Astro.url.pathname;
+const liens = [
+  { href: '/services/', texte: 'Services' },
+  { href: '/services/eclairage-led/', texte: 'Mise en valeur des matières' },
+  { href: '/realisations/', texte: 'Réalisations' },
+  { href: '/a-propos/', texte: "L'entreprise" },
+  { href: '/contact/', texte: 'Contact' },
+];
+const actif = (href) => (href === '/services/' ? chemin === '/services/' || chemin === '/services' : chemin.startsWith(href));
+---
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a href="/" class="entete__logo" aria-label={`${entreprise.nom}, accueil`}>
+      <img src="/logo.svg" alt={entreprise.nom} width="1400" height="800" />
+    </a>
+    <button class="entete__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
+    <nav aria-label="Menu principal">
+      <ul class="entete__menu" id="menu">
+        {liens.map((l) => (
+          <li><a href={l.href} aria-current={actif(l.href) ? 'page' : undefined}>{l.texte}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <a class="bouton bouton--plein entete__appel" href={`tel:${entreprise.telephoneLien}`}>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>
+      {entreprise.telephone}
+    </a>
+  </div>
+  <hr class="ligne-degrade" />
+</header>
+
+<script>
+  const bouton = document.querySelector<HTMLButtonElement>('.entete__burger');
+  const menu = document.getElementById('menu');
+  bouton?.addEventListener('click', () => {
+    const ouvert = menu?.classList.toggle('ouvert') ?? false;
+    bouton.setAttribute('aria-expanded', String(ouvert));
+  });
+</script>
+
+<style>
+  .entete { position: sticky; top: 0; z-index: 20; background: rgba(5, 6, 8, 0.92); backdrop-filter: blur(8px); }
+  .entete__barre { display: flex; align-items: center; gap: 1.2rem; padding: 0.4rem 0; position: relative; }
+  .entete__logo img { height: 78px; width: auto; }
+  nav { margin-left: auto; }
+  .entete__menu { list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; margin: 0; padding: 0; }
+  .entete__menu a { color: var(--texte); text-decoration: none; font-weight: 600; font-size: 0.98rem; opacity: 0.9; }
+  .entete__menu a:hover, .entete__menu a[aria-current='page'] { color: var(--or); opacity: 1; }
+  .entete__appel { padding: 0.6rem 1.1rem; white-space: nowrap; }
+  .entete__burger { display: none; background: none; border: 0; color: var(--texte); font-size: 1.7rem; cursor: pointer; }
+  @media (max-width: 980px) {
+    .entete__logo img { height: 56px; }
+    .entete__burger { display: block; margin-left: auto; order: 2; }
+    .entete__appel { order: 1; margin-left: auto; padding: 0.5rem 0.8rem; font-size: 0.9rem; }
+    nav { order: 3; margin: 0; }
+    .entete__menu { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: var(--noir); padding: 1.2rem 1.25rem; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .entete__menu.ouvert { display: flex; }
+  }
+  @media (max-width: 420px) {
+    .entete__logo img { height: 46px; }
+  }
+</style>

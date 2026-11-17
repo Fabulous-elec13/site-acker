@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import AppelAction from '../components/AppelAction.astro';
+import { entreprise, photos } from '../data/entreprise.js';
+---
+<Base titre="L'entreprise" description="Fabrice Acker, électricien à Marseille : 17 ans d'expérience, à son compte depuis 2023. Précis et rigoureux.">
+  <section class="section">
+    <div class="conteneur apropos">
+      <img class="portrait" src={photos.fabrice.src} alt={photos.fabrice.alt} width="900" height="1200" />
+      <div>
+        <span class="surtitre">L'entreprise</span>
+        <h1>Précis et rigoureux</h1>
+        <p>
+          Je m'appelle Fabrice Acker. Le goût des travaux manuels m'a été transmis par mon père, et je me suis
+          spécialisé en électricité dès mes études. Depuis plus de 15 ans, j'exerce comme technicien en
+          électrotechnique dans de nombreux domaines de l'électricité.
+        </p>
+        <p>
+          En {entreprise.creation}, j'ai créé {entreprise.nom} pour mettre cette expérience directement au service
+          de mes clients à Marseille et alentours. J'accompagne les particuliers, les
+          professionnels, les maîtres d'œuvre et les architectes, du simple dépannage jusqu'aux projets
+          d'éclairage les plus soignés.
+        </p>
+        <p>
+          Je travaille seul. Quand vous m'appelez, c'est moi qui réponds. Quand le chantier commence, c'est moi
+          qui le fais. Vous me laissez les clés, je fais, je nettoie, je pars.
+        </p>
+        <p>Mon objectif : vous proposer la solution la plus adaptée, toujours dans le respect des normes en vigueur.</p>
+        <ul class="liste-points">
+          <li>{entreprise.experience} d'expérience</li>
+          <li>À mon compte depuis {entreprise.creation}</li>
+          <li>Travaux conformes à la norme NF C 15-100</li>
+          <li>Assurance décennale</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <AppelAction />
+</Base>
+
+<style>
+  .apropos { display: grid; gap: 2.5rem; align-items: start; }
+  @media (min-width: 860px) { .apropos { grid-template-columns: 340px 1fr; } }
+  .portrait { width: 100%; max-width: 340px; aspect-ratio: 3 / 4; object-fit: cover; object-position: center 25%; border-radius: var(--rayon); border: 2px solid rgba(242, 178, 27, 0.4); box-shadow: 0 0 40px rgba(242, 178, 27, 0.12); }
+</style>

@@ -1,0 +1,24 @@
+---
+import { entreprise } from '../data/entreprise.js';
+const { titre = 'Un projet ? Parlons-en.' } = Astro.props;
+---
+<section class="section appel">
+  <div class="conteneur appel__boite">
+    <h2>{titre}</h2>
+    <p class="doux">Je décroche, même sur chantier.</p>
+    <div class="boutons" style="justify-content:center">
+      <a class="bouton bouton--plein" href={`tel:${entreprise.telephoneLien}`}>Appeler le {entreprise.telephone}</a>
+      <a class="bouton bouton--contour" href="/contact/#prescription">Demander une prescription</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .appel__boite {
+    text-align: center;
+    background: var(--noir-3);
+    border-radius: 20px;
+    padding: clamp(2rem, 6vw, 3.5rem) 1.5rem;
+    border: 1px solid rgba(242, 178, 27, 0.35);
+  }
+</style>

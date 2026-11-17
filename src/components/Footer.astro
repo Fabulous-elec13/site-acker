@@ -1,0 +1,46 @@
+---
+import Email from './Email.astro';
+import { entreprise, services } from '../data/entreprise.js';
+const annee = new Date().getFullYear();
+---
+<footer class="pied">
+  <hr class="ligne-degrade" />
+  <div class="conteneur pied__grille">
+    <div>
+      <a href="/"><img src="/logo.svg" alt={entreprise.nom} width="1400" height="800" class="pied__logo" loading="lazy" /></a>
+      <p class="doux">Électricien à Marseille et alentours. Électricité générale, dépannage, rénovation, mise aux normes et mise en valeur des matières par l'éclairage.</p>
+    </div>
+    <div>
+      <p class="pied__titre">Services</p>
+      <ul>
+        {services.map((s) => <li><a href={`/services/${s.slug}/`}>{s.titre}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <p class="pied__titre">Contact</p>
+      <ul>
+        <li><a href={`tel:${entreprise.telephoneLien}`}>{entreprise.telephone}</a></li>
+        <li><Email /></li>
+        <li>{entreprise.adresse.rue}<br />{entreprise.adresse.codePostal} {entreprise.adresse.ville}</li>
+        <li><a href={entreprise.instagram} target="_blank" rel="noopener">Instagram : {entreprise.instagramNom} ↗</a></li>
+        <li>Partenaire : <a href={entreprise.partenaire.url} target="_blank" rel="noopener">{entreprise.partenaire.nom} ↗</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="conteneur pied__bas">
+    <span>© {annee} {entreprise.nom}, tous droits réservés</span>
+    <span><a href="/mentions-legales/">Mentions légales</a> · <a href="/politique-confidentialite/">Politique de confidentialité</a></span>
+  </div>
+</footer>
+
+<style>
+  .pied { background: var(--noir-2); }
+  .pied__grille { display: grid; gap: 2rem; grid-template-columns: 1.4fr 1fr 1fr; padding: 3rem 0 1.5rem; }
+  @media (max-width: 860px) { .pied__grille { grid-template-columns: 1fr; } }
+  .pied__logo { height: 110px; width: auto; margin-bottom: 0.8rem; }
+  .pied__titre { font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem; color: var(--texte-doux); }
+  .pied ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+  .pied a { color: var(--texte); text-decoration: none; }
+  .pied a:hover { color: var(--or); }
+  .pied__bas { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; border-top: 1px solid rgba(255,255,255,0.08); padding: 1.3rem 0 2rem; font-size: 0.88rem; color: var(--texte-doux); }
+</style>

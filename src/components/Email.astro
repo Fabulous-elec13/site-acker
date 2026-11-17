@@ -1,0 +1,20 @@
+---
+// L'adresse email n'apparaît jamais en clair dans le code : un petit script la reconstitue.
+import { entreprise } from '../data/entreprise.js';
+const { sujet = '' } = Astro.props;
+const u = entreprise.emailUtilisateur.split('').reverse().join('');
+const d = entreprise.emailDomaine.split('').reverse().join('');
+---
+<a class="email-protege" data-u={u} data-d={d} data-s={sujet} href="/contact/">
+  {entreprise.emailUtilisateur} [at] {entreprise.emailDomaine.replace('.', ' [point] ')}
+</a>
+
+<script>
+  const r = (t: string) => t.split('').reverse().join('');
+  document.querySelectorAll<HTMLAnchorElement>('a.email-protege').forEach((a) => {
+    const adresse = r(a.dataset.u ?? '') + '@' + r(a.dataset.d ?? '');
+    const sujet = a.dataset.s ? '?subject=' + encodeURIComponent(a.dataset.s) : '';
+    a.href = 'mailto:' + adresse + sujet;
+    a.textContent = adresse;
+  });
+</script>

@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import AppelAction from '../../components/AppelAction.astro';
+import { services, photos } from '../../data/entreprise.js';
+---
+<Base titre="Services" description="Rénovation électrique, éclairage LED, tableau et mise aux normes, interphones et caméras à Marseille.">
+  <section class="section">
+    <div class="conteneur">
+      <span class="surtitre">Mes prestations</span>
+      <h1>Du simple dépannage au projet complet</h1>
+      <p class="doux" style="max-width:40rem">
+        Particuliers, commerçants ou entreprises : j'interviens sur l'ensemble de votre installation électrique, dans le respect de la norme NF C 15-100.
+      </p>
+      <div class="grille" style="margin-top:2rem">
+        {services.map((s) => (
+          <a class="carte carte--photo" href={`/services/${s.slug}/`}>
+            <img src={photos[s.photo].src} alt={photos[s.photo].alt} loading="lazy" />
+            <div class="carte__corps">
+              <h3>{s.titre}</h3>
+              <p>{s.court}</p>
+              <span class="lien">En savoir plus →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <AppelAction />
+</Base>

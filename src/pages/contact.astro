@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import Email from '../components/Email.astro';
+import FormulairePrescription from '../components/FormulairePrescription.astro';
+import { entreprise } from '../data/entreprise.js';
+---
+<Base titre="Contact" description="Demander une prescription à Fabrice Acker, électricien à Marseille et alentours : formulaire, téléphone, email.">
+  <section class="section">
+    <div class="conteneur contact">
+      <div>
+        <span class="surtitre">Contact</span>
+        <h1>Parlons de votre projet</h1>
+        <p style="font-size:1.1rem">
+          Décrivez votre besoin dans le formulaire : je prépare le rendez-vous et je vous recontacte pour établir
+          une prescription adaptée. Vous pouvez aussi m'appeler, je décroche même sur chantier.
+        </p>
+        <ul class="infos">
+          <li><strong>Téléphone</strong><a href={`tel:${entreprise.telephoneLien}`}>{entreprise.telephone}</a></li>
+          <li><strong>Email</strong><Email sujet="Demande de prescription" /></li>
+          <li><strong>Zone d'intervention</strong>{entreprise.zone}</li>
+          <li><strong>Horaires</strong>{entreprise.horaires}</li>
+          <li><strong>Adresse</strong>{entreprise.adresse.rue}, {entreprise.adresse.codePostal} {entreprise.adresse.ville}</li>
+          <li><strong>Instagram</strong><a href={entreprise.instagram} target="_blank" rel="noopener">{entreprise.instagramNom} ↗</a></li>
+        </ul>
+        <div class="urgence">
+          <strong>⚡ Une panne ?</strong> Appelez directement le <a href={`tel:${entreprise.telephoneLien}`}>{entreprise.telephone}</a>.
+        </div>
+      </div>
+      <FormulairePrescription />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact { display: grid; gap: 2.5rem; align-items: start; }
+  @media (min-width: 900px) { .contact { grid-template-columns: 0.9fr 1.1fr; } }
+  .infos { margin-top: 1.5rem; }
+  .urgence { margin-top: 1.5rem; padding: 1.2rem 1.4rem; border-radius: 12px; background: linear-gradient(100deg, rgba(242,178,27,0.12), rgba(34,195,240,0.08)); border: 1px solid rgba(242,178,27,0.3); }
+</style>

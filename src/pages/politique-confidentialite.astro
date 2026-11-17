@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import Email from '../components/Email.astro';
+import { entreprise } from '../data/entreprise.js';
+---
+<Base titre="Politique de confidentialité">
+  <section class="section">
+    <div class="conteneur texte-legal" style="max-width:46rem">
+      <span class="surtitre">Vos données</span>
+      <h1>Politique de confidentialité</h1>
+      <p class="doux">
+        Cette page explique quelles informations sont recueillies quand vous utilisez le site {entreprise.domaine},
+        à quoi elles servent et comment exercer vos droits, conformément au RGPD et à la loi Informatique et Libertés.
+      </p>
+
+      <h2>1. Responsable du traitement</h2>
+      <p>
+        {entreprise.formeJuridique}, {entreprise.nom}<br />
+        SIRET {entreprise.siret}<br />
+        {entreprise.adresse.rue}, {entreprise.adresse.codePostal} {entreprise.adresse.ville}<br />
+        Téléphone : {entreprise.telephone}. Email : <Email />
+      </p>
+
+      <h2>2. Données recueillies</h2>
+      <p>
+        Le site n'a pas de formulaire. Je reçois des informations seulement si vous choisissez de me contacter,
+        par téléphone ou par email : votre nom, vos coordonnées, votre commune et la description de votre projet.
+        Merci de ne pas indiquer d'informations sensibles (santé, opinions, etc.) dans vos messages.
+      </p>
+
+      <h2>3. Utilisation de vos données</h2>
+      <ul>
+        <li>Répondre à votre demande, vous recontacter et vous proposer une solution : mesures précontractuelles prises à votre demande.</li>
+        <li>Réaliser et suivre les travaux, établir les factures : exécution du contrat et obligations légales (comptabilité).</li>
+      </ul>
+      <p>Vos données ne sont jamais vendues ni louées, et ne servent pas à de la publicité sans votre accord.</p>
+
+      <h2>4. Destinataires</h2>
+      <p>
+        Vos données sont destinées uniquement à {entreprise.dirigeant}. Le site est hébergé par Cloudflare, Inc.
+        La messagerie est fournie par Google (Google Workspace). Ces prestataires ne les utilisent pas pour leur propre compte.
+      </p>
+
+      <h2>5. Durée de conservation</h2>
+      <p>
+        Demande de contact sans suite : 3 ans maximum après le dernier échange. Clients : pendant la durée de la
+        relation, puis aussi longtemps que l'exigent les obligations légales (10 ans pour les pièces comptables et les
+        documents liés à la garantie décennale).
+      </p>
+
+      <h2>6. Cookies et mesure d'audience</h2>
+      <p>
+        Ce site n'utilise aucun cookie, ni outil de mesure d'audience ou de publicité. Aucun bandeau de consentement
+        n'est donc nécessaire. Les liens vers Instagram et {entreprise.partenaire.nom} mènent vers des sites qui
+        appliquent leur propre politique de confidentialité.
+      </p>
+
+      <h2>7. Vos droits</h2>
+      <p>
+        Vous pouvez à tout moment demander l'accès, la rectification ou l'effacement de vos données, vous opposer à
+        leur traitement ou en demander la limitation ou la portabilité. Écrivez à <Email /> ou par courrier à l'adresse
+        ci-dessus. Réponse sous un mois. En cas de désaccord, vous pouvez saisir la CNIL :
+        <a href="https://www.cnil.fr" rel="noopener">cnil.fr</a>.
+      </p>
+    </div>
+  </section>
+</Base>
