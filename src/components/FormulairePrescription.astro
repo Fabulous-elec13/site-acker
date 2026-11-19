@@ -88,10 +88,10 @@ const d = entreprise.emailDomaine.split('').reverse().join('');
   .formulaire { background: var(--noir-3); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--rayon); padding: clamp(1.4rem, 4vw, 2rem); display: grid; gap: 1rem; scroll-margin-top: 110px; }
   .formulaire h2 { margin: 0; font-size: 1.5rem; }
   .formulaire p { margin: 0; }
-  .ligne { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  @media (max-width: 640px) { .ligne { grid-template-columns: 1fr; } }
+  .ligne { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
+  @media (max-width: 640px) { .ligne { grid-template-columns: minmax(0, 1fr); } }
   label { display: grid; gap: 0.35rem; font-size: 0.88rem; color: var(--texte-doux); }
-  input, select, textarea { font: inherit; font-size: 1rem; color: var(--texte); background: #0a0f13; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 0.75rem 0.9rem; outline: none; }
+  input, select, textarea { font: inherit; font-size: 1rem; color: var(--texte); background: #0a0f13; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 0.75rem 0.9rem; outline: none; width: 100%; min-width: 0; box-sizing: border-box; }
   input:focus, select:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(34,195,240,0.15); }
   textarea { min-height: 130px; resize: vertical; }
   .formulaire button { justify-self: start; border: 0; cursor: pointer; font-size: 1rem; }
