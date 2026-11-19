@@ -32,8 +32,10 @@ import { entreprise } from '../data/entreprise.js';
 </Base>
 
 <style>
-  .contact { display: grid; gap: 2.5rem; align-items: start; }
-  @media (min-width: 900px) { .contact { grid-template-columns: 0.9fr 1.1fr; } }
+  /* minmax(0, …) : sans ça, sur téléphone, la colonne prend la largeur du formulaire et la page déborde à droite. */
+  .contact { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: start; }
+  @media (min-width: 900px) { .contact { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } }
+  .infos a { overflow-wrap: anywhere; }
   .infos { margin-top: 1.5rem; }
   .urgence { margin-top: 1.5rem; padding: 1.2rem 1.4rem; border-radius: 12px; background: linear-gradient(100deg, rgba(242,178,27,0.12), rgba(34,195,240,0.08)); border: 1px solid rgba(242,178,27,0.3); }
 </style>
