@@ -1,0 +1,78 @@
+---
+// Mesure d'audience Google Analytics, chargée seulement si le visiteur accepte (règles CNIL).
+// Le choix est gardé 6 mois dans le navigateur ; le lien « Gérer les cookies » du pied de page rouvre le bandeau.
+const idMesure = 'G-1FVL3BVXCZ';
+---
+<div class="cookies" id="bandeau-cookies" data-id={idMesure} hidden role="dialog" aria-label="Cookies de mesure d'audience">
+  <p>
+    J'aimerais savoir combien de personnes visitent ce site, avec Google Analytics. D'accord ?
+    <a href="/politique-confidentialite/#cookies">En savoir plus</a>
+  </p>
+  <div class="cookies__boutons">
+    <button type="button" class="bouton bouton--contour" data-choix="refuse">Refuser</button>
+    <button type="button" class="bouton bouton--plein" data-choix="accepte">Accepter</button>
+  </div>
+</div>
+
+<script>
+  const CLE = 'acker-cookies';
+  const DUREE = 1000 * 60 * 60 * 24 * 182; // 6 mois
+  const bandeau = document.getElementById('bandeau-cookies') as HTMLDivElement;
+  const id = bandeau.dataset.id ?? '';
+
+  const lire = (): string | null => {
+    try {
+      const v = JSON.parse(localStorage.getItem(CLE) ?? 'null');
+      return v && Date.now() - v.date < DUREE ? v.choix : null;
+    } catch { return null; }
+  };
+  const ecrire = (choix: string) => {
+    try { localStorage.setItem(CLE, JSON.stringify({ choix, date: Date.now() })); } catch {}
+  };
+
+  let charge = false;
+  const chargerAnalytics = () => {
+    if (charge || !id) return;
+    charge = true;
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    w.gtag = function () { w.dataLayer.push(arguments); };
+    w.gtag('js', new Date());
+    w.gtag('config', id);
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    document.head.appendChild(s);
+  };
+
+  const choix = lire();
+  if (choix === 'accepte') chargerAnalytics();
+  else if (choix === null) bandeau.hidden = false;
+
+  bandeau.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest('button[data-choix]') as HTMLButtonElement | null;
+    if (!b) return;
+    const c = b.dataset.choix!;
+    ecrire(c);
+    bandeau.hidden = true;
+    if (c === 'accepte') chargerAnalytics();
+    else if (charge) location.reload(); // retire l'outil déjà chargé
+  });
+
+  document.querySelectorAll('[data-gerer-cookies]').forEach((a) =>
+    a.addEventListener('click', (e) => { e.preventDefault(); bandeau.hidden = false; })
+  );
+</script>
+
+<style>
+  .cookies { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 50; max-width: 40rem; margin: 0 auto;
+    background: var(--noir-3); border: 1px solid rgba(242,178,27,0.35); border-radius: var(--rayon);
+    padding: 1rem 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: grid; gap: 0.8rem; }
+  .cookies[hidden] { display: none; }
+  .cookies p { margin: 0; font-size: 0.95rem; }
+  .cookies a { color: var(--cyan); }
+  .cookies__boutons { display: flex; gap: 0.6rem; justify-content: flex-end; flex-wrap: wrap; }
+  .cookies button { border-width: 1px; border-style: solid; cursor: pointer; font-size: 0.95rem; padding: 0.55rem 1.1rem; }
+  .cookies .bouton--plein { border-color: var(--or); }
+  .cookies .bouton--contour { background: transparent; color: var(--texte); border-color: var(--cyan); }
+</style>

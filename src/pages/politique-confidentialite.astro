@@ -23,8 +23,9 @@ import { entreprise } from '../data/entreprise.js';
 
       <h2>2. Données recueillies</h2>
       <p>
-        Le site n'a pas de formulaire. Je reçois des informations seulement si vous choisissez de me contacter,
-        par téléphone ou par email : votre nom, vos coordonnées, votre commune et la description de votre projet.
+        Je reçois des informations seulement si vous choisissez de me contacter, par téléphone, par email ou avec le
+        formulaire de la page Contact (il prépare un email dans votre messagerie, que vous envoyez vous-même) :
+        votre nom, vos coordonnées, votre commune et la description de votre projet.
         Merci de ne pas indiquer d'informations sensibles (santé, opinions, etc.) dans vos messages.
       </p>
 
@@ -48,10 +49,13 @@ import { entreprise } from '../data/entreprise.js';
         documents liés à la garantie décennale).
       </p>
 
-      <h2>6. Cookies et mesure d'audience</h2>
+      <h2 id="cookies">6. Cookies et mesure d'audience</h2>
       <p>
-        Ce site n'utilise aucun cookie, ni outil de mesure d'audience ou de publicité. Aucun bandeau de consentement
-        n'est donc nécessaire. Les liens vers Instagram et {entreprise.partenaire.nom} mènent vers des sites qui
+        Si vous l'acceptez dans le bandeau, le site utilise Google Analytics (Google Ireland Limited) pour compter les
+        visites et savoir quelles pages sont lues. Ces cookies sont conservés 13 mois au plus et ne servent pas à la
+        publicité. Sans votre accord, aucun cookie n'est déposé et Google Analytics n'est pas chargé. Votre choix est
+        gardé 6 mois dans votre navigateur ; vous pouvez le changer à tout moment avec le lien
+        « Gérer les cookies » en bas de chaque page. Aucun outil de publicité n'est utilisé. Les liens vers Instagram et {entreprise.partenaire.nom} mènent vers des sites qui
         appliquent leur propre politique de confidentialité.
       </p>
 
